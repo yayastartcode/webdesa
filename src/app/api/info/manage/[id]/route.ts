@@ -80,7 +80,13 @@ export async function PATCH(
     }
     
     // Prepare update data
-    const updateData: any = {
+    const updateData: {
+      updatedAt: Date;
+      title?: string;
+      slug?: string;
+      pdfUrl?: string;
+      isActive?: boolean;
+    } = {
       updatedAt: new Date()
     };
     

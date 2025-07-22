@@ -11,7 +11,14 @@ export async function PATCH(
     const { title, description, imageUrl, category, order, isActive } = body;
 
     // Prepare update data
-    const updateData: any = {};
+    const updateData: {
+      title?: string;
+      description?: string;
+      imageUrl?: string;
+      category?: string;
+      order?: number;
+      isActive?: boolean;
+    } = {};
     if (title !== undefined) updateData.title = title;
     if (description !== undefined) updateData.description = description;
     if (imageUrl !== undefined) updateData.imageUrl = imageUrl;

@@ -75,7 +75,12 @@ export async function POST(request: NextRequest) {
       // Create new navigation items
       if (navigationItems.length > 0) {
         await prisma.navigationItem.createMany({
-          data: navigationItems.map((item: any, index: number) => ({
+          data: navigationItems.map((item: {
+            label: string;
+            href: string;
+            order?: number;
+            isActive?: boolean;
+          }, index: number) => ({
             label: item.label,
             href: item.href,
             order: item.order || index + 1,

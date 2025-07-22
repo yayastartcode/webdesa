@@ -19,7 +19,7 @@ export async function createAdminUser(email: string, password: string, name: str
     });
     
     return user;
-  } catch (error) {
+  } catch {
     throw new Error("Failed to create admin user");
   }
 }

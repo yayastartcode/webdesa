@@ -47,7 +47,10 @@ export async function GET(request: NextRequest) {
     const isActive = searchParams.get("isActive");
 
     // Build where clause
-    const where: any = {};
+    const where: {
+      category?: string;
+      isActive?: boolean;
+    } = {};
     if (category) {
       where.category = category;
     }
@@ -74,7 +77,7 @@ export async function GET(request: NextRequest) {
     });
 
     const uniqueCategories = categories
-      .map((item: any) => item.category)
+      .map((item: { category: string | null }) => item.category)
       .filter(Boolean)
       .sort();
 

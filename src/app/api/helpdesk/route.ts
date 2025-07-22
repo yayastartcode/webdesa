@@ -102,7 +102,10 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit;
 
     // Build where clause
-    const where: any = {};
+    const where: {
+      status?: string;
+      kategoriPengaduan?: string;
+    } = {};
     if (status) where.status = status;
     if (kategori) where.kategoriPengaduan = kategori;
 

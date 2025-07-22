@@ -83,7 +83,12 @@ export async function PUT(
       }
     }
     
-    const updateData: any = {};
+    const updateData: {
+      year?: number;
+      pendapatanDesa?: number;
+      belanjaDesa?: number;
+      isActive?: boolean;
+    } = {};
     if (year !== undefined) updateData.year = parseInt(year);
     if (pendapatanDesa !== undefined) updateData.pendapatanDesa = parseFloat(pendapatanDesa);
     if (belanjaDesa !== undefined) updateData.belanjaDesa = parseFloat(belanjaDesa);

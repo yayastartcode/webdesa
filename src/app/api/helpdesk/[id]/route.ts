@@ -20,7 +20,11 @@ export async function PATCH(
     }
 
     // Prepare update data
-    const updateData: any = {
+    const updateData: {
+      updatedAt: Date;
+      status?: string;
+      response?: string;
+    } = {
       updatedAt: new Date(),
     };
     
