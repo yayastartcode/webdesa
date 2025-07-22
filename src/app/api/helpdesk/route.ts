@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Save to database
-    const helpdesk = await prisma.Helpdesk.create({
+    const helpdesk = await prisma.helpdesk.create({
       data: {
         nama,
         nomorWhatsapp,
@@ -108,13 +108,13 @@ export async function GET(request: NextRequest) {
 
     // Get helpdesk entries with pagination
     const [helpdesks, total] = await Promise.all([
-      prisma.Helpdesk.findMany({
+      prisma.helpdesk.findMany({
         where,
         orderBy: { createdAt: "desc" },
         skip,
         take: limit,
       }),
-      prisma.Helpdesk.count({ where }),
+      prisma.helpdesk.count({ where }),
     ]);
 
     return NextResponse.json({

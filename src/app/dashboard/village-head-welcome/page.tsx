@@ -14,10 +14,7 @@ const MDEditor = dynamic(
   { ssr: false }
 );
 
-const Markdown = dynamic(
-  () => import("@uiw/react-md-editor").then((mod) => mod.Markdown),
-  { ssr: false }
-);
+// Remove the incorrect Markdown import - @uiw/react-md-editor doesn't export Markdown component
 
 interface VillageHeadWelcome {
   id?: string;
@@ -171,9 +168,14 @@ export default function VillageHeadWelcomePage() {
           <CardContent>
             <div className="space-y-4">
               {showPreview ? (
-                <div className="min-h-[400px] p-4 border rounded-lg bg-white dark:bg-gray-800">
-                  <Markdown>{content}</Markdown>
-                </div>
+                <MDEditor
+                  value={content}
+                  onChange={(val) => setContent(val || "")}
+                  preview="preview"
+                  height={400}
+                  data-color-mode="light"
+                  visibleDragbar={false}
+                />
               ) : (
                 <MDEditor
                   value={content}

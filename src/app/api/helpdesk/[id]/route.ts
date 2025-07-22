@@ -3,10 +3,10 @@ import { prisma } from "@/lib/prisma";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
     const { status, response } = body;
 
@@ -33,7 +33,7 @@ export async function PATCH(
     }
 
     // Update helpdesk entry
-    const updatedHelpdesk = await prisma.Helpdesk.update({
+    const updatedHelpdesk = await prisma.helpdesk.update({
       where: { id },
       data: updateData,
     });
@@ -62,12 +62,12 @@ export async function PATCH(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
-    const helpdesk = await prisma.Helpdesk.findUnique({
+    const helpdesk = await prisma.helpdesk.findUnique({
       where: { id },
     });
 
@@ -90,12 +90,12 @@ export async function GET(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
-    await prisma.Helpdesk.delete({
+    await prisma.helpdesk.delete({
       where: { id },
     });
 

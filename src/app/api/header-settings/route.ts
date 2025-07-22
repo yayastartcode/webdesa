@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Update navigation items if provided
-    if (navigationItems && Array.isArray(navigationItems)) {
+    if (navigationItems && Array.isArray(navigationItems) && headerSettings) {
       // Delete existing navigation items
       await prisma.navigationItem.deleteMany({
         where: { headerSettingsId: headerSettings.id }
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
             href: item.href,
             order: item.order || index + 1,
             isActive: item.isActive !== false,
-            headerSettingsId: headerSettings.id
+            headerSettingsId: headerSettings!.id
           }))
         });
       }

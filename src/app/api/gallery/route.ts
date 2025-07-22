@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create gallery item
-    const gallery = await prisma.Gallery.create({
+    const gallery = await prisma.gallery.create({
       data: {
         title,
         description,
@@ -57,17 +57,17 @@ export async function GET(request: NextRequest) {
 
     // Get gallery items with pagination
     const [galleries, total] = await Promise.all([
-      prisma.Gallery.findMany({
+      prisma.gallery.findMany({
         where,
         orderBy: [{ order: "asc" }, { createdAt: "desc" }],
         skip: (page - 1) * limit,
         take: limit,
       }),
-      prisma.Gallery.count({ where }),
+      prisma.gallery.count({ where }),
     ]);
 
     // Get unique categories for filtering
-    const categories = await prisma.Gallery.findMany({
+    const categories = await prisma.gallery.findMany({
       where: { isActive: true },
       select: { category: true },
       distinct: ["category"],

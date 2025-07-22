@@ -3,10 +3,10 @@ import { prisma } from "@/lib/prisma";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
     const { title, description, imageUrl, category, order, isActive } = body;
 
@@ -20,7 +20,7 @@ export async function PATCH(
     if (isActive !== undefined) updateData.isActive = isActive;
 
     // Update gallery item
-    const updatedGallery = await prisma.Gallery.update({
+    const updatedGallery = await prisma.gallery.update({
       where: { id },
       data: updateData,
     });
@@ -46,12 +46,12 @@ export async function PATCH(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
-    const gallery = await prisma.Gallery.findUnique({
+    const gallery = await prisma.gallery.findUnique({
       where: { id },
     });
 
@@ -74,12 +74,12 @@ export async function GET(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
-    await prisma.Gallery.delete({
+    await prisma.gallery.delete({
       where: { id },
     });
 

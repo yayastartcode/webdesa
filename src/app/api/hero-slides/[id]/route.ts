@@ -6,11 +6,12 @@ import { prisma } from "@/lib/prisma";
 // GET /api/hero-slides/[id]
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const heroSlide = await prisma.heroSlide.findUnique({
-      where: { id: params.id }
+      where: { id }
     });
 
     if (!heroSlide) {
@@ -30,12 +31,13 @@ export async function GET(
   }
 }
 
-// PUT /api/hero-slides/[id]
-export async function PUT(
+// PATCH /api/hero-slides/[id]
+export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     
     if (!session || session.user.role !== "ADMIN") {
@@ -48,7 +50,7 @@ export async function PUT(
     const { title, description, imageUrl, order, isActive } = await request.json();
 
     const heroSlide = await prisma.heroSlide.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         title,
         description,
@@ -71,9 +73,10 @@ export async function PUT(
 // DELETE /api/hero-slides/[id]
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const session = await getServerSession(authOptions);
     
     if (!session || session.user.role !== "ADMIN") {
@@ -84,7 +87,7 @@ export async function DELETE(
     }
 
     await prisma.heroSlide.delete({
-      where: { id: params.id }
+      where: { id }
     });
 
     return NextResponse.json({ message: "Hero slide deleted successfully" });
