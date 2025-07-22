@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import type { Session } from "next-auth";
 
 // GET /api/village-info - Get village information
 export async function GET() {
@@ -25,9 +26,9 @@ export async function GET() {
 // POST /api/village-info - Create or update village information
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    
-    if (!session || session.user.role !== "ADMIN") {
+    const session = await getServerSession(authOptions) as Session | null;
+
+    if (!session || !session.user || session.user.role !== "ADMIN") {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }

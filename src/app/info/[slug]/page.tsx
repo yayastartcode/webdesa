@@ -300,7 +300,7 @@ export default function InfoPage() {
         
         {/* Back to Home */}
         <div className="mt-6 text-center">
-          <a
+          <Link
             href="/"
             className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
           >
@@ -308,7 +308,7 @@ export default function InfoPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             Kembali ke Beranda
-          </a>
+          </Link>
         </div>
       </div>
     </div>

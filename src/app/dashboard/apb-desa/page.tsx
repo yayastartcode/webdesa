@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import type { Session } from "next-auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,7 +30,7 @@ interface FormData {
 }
 
 export default function ApbDesaDashboard() {
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession() as { data: Session | null; status: string; };
   const router = useRouter();
   const { toast } = useToast();
   
@@ -47,7 +48,7 @@ export default function ApbDesaDashboard() {
   useEffect(() => {
     if (status === "loading") return;
     
-    if (!session || session.user.role !== 'ADMIN') {
+    if (!session || !session.user || session.user.role !== 'ADMIN') {
       router.push('/login');
       return;
     }
@@ -203,7 +204,7 @@ export default function ApbDesaDashboard() {
     );
   }
 
-  if (!session || session.user.role !== 'ADMIN') {
+  if (!session || !session.user || session.user.role !== 'ADMIN') {
     return null;
   }
 

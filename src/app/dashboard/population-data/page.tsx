@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import type { Session } from "next-auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -21,7 +22,7 @@ interface PopulationData {
 }
 
 export default function PopulationDataPage() {
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession() as { data: Session | null; status: string; };
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -44,7 +45,7 @@ export default function PopulationDataPage() {
       return;
     }
     
-    if (session.user.role !== "ADMIN") {
+    if (!session.user || session.user.role !== "ADMIN") {
       router.push("/");
       return;
     }
@@ -135,7 +136,7 @@ export default function PopulationDataPage() {
     );
   }
 
-  if (!session || session.user.role !== "ADMIN") {
+  if (!session || !session.user || session.user.role !== "ADMIN") {
     return null;
   }
 

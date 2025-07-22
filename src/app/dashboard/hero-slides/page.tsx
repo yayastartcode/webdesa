@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
+import type { Session } from 'next-auth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -10,6 +11,8 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { UploadButton } from '@/lib/uploadthing';
 import { Trash2, Plus, ArrowUp, ArrowDown } from 'lucide-react';
+
+
 
 interface HeroSlide {
   id: string;
@@ -20,8 +23,13 @@ interface HeroSlide {
   order: number;
 }
 
+interface UploadResponse {
+  ufsUrl: string;
+  [key: string]: any;
+}
+
 export default function HeroSlidesPage() {
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession() as { data: Session | null; status: string; };
   const [slides, setSlides] = useState<HeroSlide[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -57,7 +65,7 @@ export default function HeroSlidesPage() {
     return <div>Loading...</div>;
   }
 
-  if (!session || session.user.role !== 'ADMIN') {
+  if (!session || !session.user || session.user.role !== 'ADMIN') {
     redirect('/login');
   }
 
@@ -277,7 +285,7 @@ export default function HeroSlidesPage() {
                     ) : (
                       <UploadButton
                         endpoint="imageUploader"
-                        onClientUploadComplete={(res: any) => {
+                        onClientUploadComplete={(res: UploadResponse[]) => {
                           if (res?.[0]) {
                             setNewSlide({ ...newSlide, imageUrl: res[0].ufsUrl });
                           }

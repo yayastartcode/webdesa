@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import type { Session } from "next-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,7 +27,7 @@ interface HeaderSettings {
 }
 
 export default function HeaderSettingsPage() {
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession() as { data: Session | null; status: string; };
   const router = useRouter();
   const [headerSettings, setHeaderSettings] = useState<HeaderSettings | null>(null);
   const [logoUrl, setLogoUrl] = useState("");
@@ -45,7 +46,7 @@ export default function HeaderSettingsPage() {
   useEffect(() => {
     if (status === "loading") return;
     
-    if (!session || session.user.role !== "ADMIN") {
+    if (!session || !session.user || session.user.role !== "ADMIN") {
       router.push("/");
       return;
     }

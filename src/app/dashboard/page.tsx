@@ -2,13 +2,14 @@
 
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import type { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export default function DashboardPage() {
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession() as { data: Session | null; status: string; };
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -20,7 +21,7 @@ export default function DashboardPage() {
       return;
     }
     
-    if (session.user.role !== "ADMIN") {
+    if (!session.user || session.user.role !== "ADMIN") {
       router.push("/");
       return;
     }
@@ -43,7 +44,7 @@ export default function DashboardPage() {
     );
   }
 
-  if (!session || session.user.role !== "ADMIN") {
+  if (!session || !session.user || session.user.role !== "ADMIN") {
     return null;
   }
 
@@ -58,7 +59,7 @@ export default function DashboardPage() {
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-600 dark:text-gray-300">
-                Selamat datang, {session.user.name || session.user.email}
+                Selamat datang, {session.user?.name || session.user?.email}
               </span>
               <Button 
                 onClick={handleSignOut}

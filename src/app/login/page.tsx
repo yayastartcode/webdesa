@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { signIn, getSession } from "next-auth/react";
+import type { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,7 +35,7 @@ export default function LoginPage() {
         setError("Email atau password salah");
       } else {
         // Get session to check user role
-        const session = await getSession();
+        const session = await getSession() as Session | null;
         if (session?.user?.role === "ADMIN") {
           router.push("/dashboard");
         } else {

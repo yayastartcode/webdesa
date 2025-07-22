@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import type { Session } from "next-auth";
 
 // GET /api/posts - Get all published posts
 export async function GET(request: NextRequest) {
@@ -58,9 +59,9 @@ export async function GET(request: NextRequest) {
 // POST /api/posts - Create a new post
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    
-    if (!session || session.user.role !== "ADMIN") {
+    const session = await getServerSession(authOptions) as Session | null;
+
+    if (!session || !session.user || session.user.role !== "ADMIN") {
       return NextResponse.json(
         { success: false, error: "Unauthorized access" },
         { status: 403 }
