@@ -5,6 +5,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { UploadDemo } from "@/components/upload-demo";
 import Header from "@/components/header";
 import HeroSlider from "@/components/hero-slider";
+import VillageInfoSection from "@/components/village-info";
+import VillageHeadWelcomeSection from "@/components/village-head-welcome";
+import EmployeeSlider from "@/components/employee-slider";
+import PopulationDemographics from "@/components/population-demographics";
+import ApbDesaSection from "@/components/apb-desa";
+import BeritaList from "@/components/berita-list";
+import VillageMaps from "@/components/village-maps";
+import HelpdeskForm from "@/components/helpdesk-form";
+import GalleryPreview from "@/components/gallery-preview";
 
 interface HeroSlide {
   id: string;
@@ -28,9 +37,34 @@ interface HeaderSettings {
   navigationItems: NavigationItem[];
 }
 
+interface VillageInfo {
+  id: string;
+  visi: string;
+  misi: string;
+  tujuan: string;
+}
+
+interface VillageHeadWelcome {
+  id?: string;
+  content: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface Employee {
+  id: string;
+  name: string;
+  position: string;
+  photoUrl?: string;
+  order: number;
+}
+
 export default function Home() {
   const [heroSlides, setHeroSlides] = useState<HeroSlide[]>([]);
   const [headerSettings, setHeaderSettings] = useState<HeaderSettings | null>(null);
+  const [villageInfo, setVillageInfo] = useState<VillageInfo | null>(null);
+  const [villageHeadWelcome, setVillageHeadWelcome] = useState<VillageHeadWelcome | undefined>(undefined);
+  const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -53,6 +87,37 @@ export default function Home() {
         } else {
           console.error('Failed to fetch header settings');
         }
+
+        // Fetch village info
+        const villageInfoResponse = await fetch('/api/village-info');
+        if (villageInfoResponse.ok) {
+          const villageData = await villageInfoResponse.json();
+          setVillageInfo(villageData);
+        } else {
+          console.error('Failed to fetch village info');
+        }
+
+        // Fetch village head welcome
+        const villageHeadWelcomeResponse = await fetch('/api/village-head-welcome');
+        if (villageHeadWelcomeResponse.ok) {
+          const welcomeData = await villageHeadWelcomeResponse.json();
+          if (welcomeData.success) {
+            setVillageHeadWelcome(welcomeData.data || undefined);
+          }
+        } else {
+          console.error('Failed to fetch village head welcome');
+        }
+
+        // Fetch employees
+        const employeesResponse = await fetch('/api/employees');
+        if (employeesResponse.ok) {
+          const employeesData = await employeesResponse.json();
+          if (employeesData.success) {
+            setEmployees(employeesData.data || []);
+          }
+        } else {
+          console.error('Failed to fetch employees');
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -73,59 +138,37 @@ export default function Home() {
       {/* Hero Slider */}
       {!loading && <HeroSlider slides={heroSlides} />}
 
-      {/* Main Content */}
-      <main className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-        <div className="container mx-auto px-4 py-12">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Selamat Datang di Desasa Web
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Platform web modern untuk masyarakat Indonesia, dibangun dengan teknologi terdepan
-            dan desain yang indah.
-          </p>
-        </div>
+      {/* Village Info Section */}
+      <VillageInfoSection villageInfo={villageInfo} />
 
-        {/* Feature Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                ⚡ Performa Tinggi
-              </CardTitle>
-              <CardDescription>
-                Dibangun dengan Next.js 15 dan TypeScript untuk performa optimal
-              </CardDescription>
-            </CardHeader>
-          </Card>
+      {/* Village Head Welcome Section */}
+      <VillageHeadWelcomeSection 
+        welcome={villageHeadWelcome} 
+        logoUrl={headerSettings?.logoUrl || undefined}
+      />
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                🎨 Desain Modern
-              </CardTitle>
-              <CardDescription>
-                Menggunakan Tailwind CSS dan shadcn/ui untuk tampilan yang indah
-              </CardDescription>
-            </CardHeader>
-          </Card>
+      {/* Employee Slider Section */}
+      <EmployeeSlider employees={employees} />
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                📱 Responsif
-              </CardTitle>
-              <CardDescription>
-                Tampilan yang sempurna di semua perangkat, dari mobile hingga desktop
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        </div>
+      {/* Population Demographics */}
+          <PopulationDemographics />
 
-          {/* Upload Demo */}
-          <UploadDemo />
-        </div>
-      </main>
+          {/* APB Desa Section */}
+          <ApbDesaSection />
+
+          {/* Berita List */}
+          <BeritaList />
+
+      {/* Village Maps Section */}
+      <VillageMaps />
+
+      {/* Helpdesk Section */}
+      <HelpdeskForm />
+
+      {/* Gallery Preview Section */}
+      <GalleryPreview />
+
+    
 
       {/* Footer */}
       <footer className="border-t bg-white/80 backdrop-blur-sm dark:bg-gray-900/80 mt-20">
@@ -133,7 +176,7 @@ export default function Home() {
           <div className="text-center text-gray-600 dark:text-gray-300">
             <p>Dibuat dengan ❤️ untuk Indonesia</p>
             <p className="text-sm mt-2">
-              Powered by Next.js, TypeScript, Tailwind CSS, shadcn/ui, Prisma & Uploadthing
+              Powered by Desa Gimpubia
             </p>
           </div>
         </div>

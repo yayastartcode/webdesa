@@ -194,8 +194,11 @@ export default function DashboardPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                  Buat Postingan Baru
+                <Button 
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                  onClick={() => window.location.href = '/dashboard/posts'}
+                >
+                  Kelola Berita Desa
                 </Button>
                 <Button 
                   variant="outline" 
@@ -210,6 +213,55 @@ export default function DashboardPage() {
                   onClick={() => window.location.href = '/dashboard/hero-slides'}
                 >
                   Kelola Hero Slider
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
+                  onClick={() => window.location.href = '/dashboard/village-info'}
+                >
+                  Kelola Visi, Misi & Tujuan
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
+                  onClick={() => window.location.href = '/dashboard/village-head-welcome'}
+                >
+                  Kelola Sambutan Kepala Desa
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
+                  onClick={() => window.location.href = '/dashboard/employees'}
+                >
+                  Kelola Pegawai Desa
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
+                  onClick={() => window.location.href = '/dashboard/population-data'}
+                >
+                  Kelola Data Kependudukan
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
+                  onClick={() => window.location.href = '/dashboard/helpdesk'}
+                >
+                  Kelola Helpdesk
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
+                  onClick={() => window.location.href = '/dashboard/info'}
+                >
+                  Kelola Halaman Info
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
+                  onClick={() => window.location.href = '/dashboard/gallery'}
+                >
+                  Kelola Galeri Kegiatan
                 </Button>
                 <Button variant="outline" className="w-full text-gray-900 dark:text-white border-gray-300 dark:border-gray-600">
                   Kelola Pengguna

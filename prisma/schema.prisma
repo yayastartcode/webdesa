@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -132,4 +131,104 @@ model HeroSlide {
   updatedAt   DateTime @updatedAt
   
   @@map("hero_slides")
+}
+
+model VillageInfo {
+  id          String   @id @default(cuid())
+  visi        String   @db.Text
+  misi        String   @db.Text
+  tujuan      String   @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("village_info")
+}
+
+model VillageHeadWelcome {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("village_head_welcome")
+}
+
+model PopulationData {
+  id                   String   @id @default(cuid())
+  totalPopulation      Int
+  malePopulation       Int
+  femalePopulation     Int
+  households           Int
+  temporaryResidents   Int
+  populationMutations  Int
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@map("population_data")
+}
+
+model Employee {
+  id          String   @id @default(cuid())
+  name        String
+  position    String   // jabatan
+  photoUrl    String?
+  order       Int
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("employees")
+}
+
+model Helpdesk {
+  id                String   @id @default(cuid())
+  nama              String
+  nomorWhatsapp     String
+  kategoriPengaduan String   // umum, kesehatan, keamanan, kebersihan
+  pesanPengaduan    String   @db.Text
+  status            String   @default("pending") // pending, in_progress, resolved, closed
+  response          String?  @db.Text
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@map("helpdesk")
+}
+
+model Info {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  pdfUrl    String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("info")
+}
+
+model Gallery {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  imageUrl    String
+  category    String?  // kategori kegiatan
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("gallery")
+}
+
+model ApbDesa {
+  id              String   @id @default(cuid())
+  year            Int      // tahun APB
+  pendapatanDesa  Decimal  @db.Decimal(15,2) // pendapatan desa
+  belanjaDesa     Decimal  @db.Decimal(15,2) // belanja desa
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@unique([year])
+  @@map("apb_desa")
 }

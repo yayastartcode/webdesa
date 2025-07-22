@@ -38,7 +38,8 @@ export default function Header({ logoUrl, navigationItems = [] }: HeaderProps) {
     { id: "2", label: "Tentang", href: "/about", order: 2 },
     { id: "3", label: "Layanan", href: "/services", order: 3 },
     { id: "4", label: "Berita", href: "/news", order: 4 },
-    { id: "5", label: "Kontak", href: "/contact", order: 5 },
+    { id: "5", label: "Galeri", href: "/galeri", order: 5 },
+    { id: "6", label: "Kontak", href: "/contact", order: 6 },
   ];
 
   const navItems = navigationItems.length > 0 ? navigationItems : defaultNavItems;
@@ -46,27 +47,27 @@ export default function Header({ logoUrl, navigationItems = [] }: HeaderProps) {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300 ${
         isScrolled
           ? "bg-red-600 shadow-lg backdrop-blur-sm"
           : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-3">
             {logoUrl ? (
               <Image
                 src={logoUrl}
                 alt="Logo Desasa"
-                width={40}
-                height={40}
-                className="w-10 h-10 object-contain"
+                width={96}
+                height={96}
+                className="w-24 h-24 object-contain"
               />
             ) : (
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                <span className="text-red-600 font-bold text-lg">🇮🇩</span>
+              <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-red-600 font-bold text-2xl">🇮🇩</span>
               </div>
             )}
             <span
@@ -74,7 +75,8 @@ export default function Header({ logoUrl, navigationItems = [] }: HeaderProps) {
                 isScrolled ? "text-white" : "text-white drop-shadow-lg"
               }`}
             >
-              Desasa
+              Desa Gimpubia <br />
+              Kabupaten Donggala
             </span>
           </Link>
 
@@ -91,18 +93,7 @@ export default function Header({ logoUrl, navigationItems = [] }: HeaderProps) {
                 {item.label}
               </Link>
             ))}
-            <Link href="/login">
-              <Button
-                variant={isScrolled ? "secondary" : "outline"}
-                className={`transition-all duration-300 ${
-                  isScrolled
-                    ? "bg-white text-red-600 hover:bg-gray-100"
-                    : "bg-white/20 text-white border-white/30 hover:bg-white/30 backdrop-blur-sm"
-                }`}
-              >
-                Masuk
-              </Button>
-            </Link>
+
           </nav>
 
           {/* Mobile Menu Button */}

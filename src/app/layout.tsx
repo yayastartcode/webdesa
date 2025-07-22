@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Desasa - Platform Desa Digital",
+  title: "Desa Gimpubia - Platform Desa Digital",
   description: "Platform digital untuk mengelola informasi dan layanan desa",
 };
 

@@ -35,7 +35,8 @@ export default function HeaderSettingsPage() {
     { label: "Tentang", href: "/about", order: 2, isActive: true },
     { label: "Layanan", href: "/services", order: 3, isActive: true },
     { label: "Berita", href: "/news", order: 4, isActive: true },
-    { label: "Kontak", href: "/contact", order: 5, isActive: true },
+    { label: "Galeri", href: "/galeri", order: 5, isActive: true },
+    { label: "Kontak", href: "/contact", order: 6, isActive: true },
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
