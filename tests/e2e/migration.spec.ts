@@ -93,7 +93,10 @@ test.describe.serial('Cloudflare migration', () => {
     await page.goto('/dashboard/gallery', { waitUntil: 'domcontentloaded' }); await expect(page).toHaveURL(/\/login$/);
     await page.getByLabel('Email', { exact: true }).fill(credentials.email);
     await page.getByLabel('Password', { exact: true }).fill(credentials.password);
+    const signedIn = page.waitForResponse(response => response.url().endsWith('/api/auth/sign-in/email') && response.request().method() === 'POST');
     await page.getByRole('button', { name: 'Masuk', exact: true }).click();
+    const login = await signedIn;
+    expect(login.status(), await login.text()).toBe(200);
     await expect(page).toHaveURL(/\/dashboard$/);
     for (const route of ['posts','header-settings','hero-slides','village-info','village-head-welcome','employees','population-data','gallery','helpdesk','info','apb-desa']) {
       await page.goto(`/dashboard/${route}`, { waitUntil: 'domcontentloaded' });
