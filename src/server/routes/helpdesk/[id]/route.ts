@@ -29,11 +29,11 @@ async function PATCH(
     } = {
       updatedAt: new Date(),
     };
-    
+
     if (status) {
       updateData.status = status;
     }
-    
+
     if (response !== undefined) {
       updateData.response = response;
     }
@@ -50,7 +50,7 @@ async function PATCH(
     });
   } catch (error) {
     console.error("Error updating helpdesk:", error);
-    
+
     // Check if record not found
     if (error instanceof Error && error.message.includes("Record to update not found")) {
       return Response.json(
@@ -110,7 +110,7 @@ async function DELETE(
     });
   } catch (error) {
     console.error("Error deleting helpdesk:", error);
-    
+
     // Check if record not found
     if (error instanceof Error && error.message.includes("Record to delete does not exist")) {
       return Response.json(

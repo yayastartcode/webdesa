@@ -28,8 +28,8 @@ async function GET() {
 // POST /api/header-settings
 async function POST(request: Request) {
   try {
-    
-    
+
+
     if (!session || !session.user || session.user.role !== "ADMIN") {
       return Response.json(
         { error: "Unauthorized" },
@@ -100,7 +100,7 @@ async function POST(request: Request) {
           }
         }
       });
-      
+
       if (updatedSettings) {
         headerSettings = updatedSettings;
       }

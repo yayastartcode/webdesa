@@ -25,7 +25,7 @@ async function GET() {
 // POST /api/village-info - Create or update village information
 async function POST(request: Request) {
   try {
-    
+
 
     if (!session || !session.user || session.user.role !== "ADMIN") {
       return Response.json(

@@ -28,7 +28,7 @@ async function GET() {
 // POST - Create or update population data
 async function POST(request: Request) {
   try {
-    
+
 
     if (!session || !session.user || session.user.role !== "ADMIN") {
       return Response.json(

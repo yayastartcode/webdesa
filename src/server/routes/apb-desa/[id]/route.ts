@@ -10,18 +10,18 @@ async function GET(
 ) {
   try {
     const { id } = await params;
-    
+
     const apbData = await store.apbDesa.findUnique({
       where: { id }
     });
-    
+
     if (!apbData) {
       return Response.json(
         { success: false, error: 'Data APB Desa tidak ditemukan' },
         { status: 404 }
       );
     }
-    
+
     return Response.json({
       success: true,
       data: apbData
@@ -41,31 +41,31 @@ async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    
-    
+
+
     if (!session || !session.user || session.user.role !== 'ADMIN') {
       return Response.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
       );
     }
-    
+
     const { id } = await params;
     const body = await readBody(request, "apb-desa");
     const { year, pendapatanDesa, belanjaDesa, isActive } = body;
-    
+
     // Check if APB data exists
     const existingData = await store.apbDesa.findUnique({
       where: { id }
     });
-    
+
     if (!existingData) {
       return Response.json(
         { success: false, error: 'Data APB Desa tidak ditemukan' },
         { status: 404 }
       );
     }
-    
+
     // Check if year is being changed and conflicts with existing data
     if (year && parseInt(year) !== existingData.year) {
       const yearConflict = await store.apbDesa.findFirst({
@@ -74,7 +74,7 @@ async function PUT(
           id: { not: id }
         }
       });
-      
+
       if (yearConflict) {
         return Response.json(
           { success: false, error: 'Data APB untuk tahun ini sudah ada' },
@@ -82,7 +82,7 @@ async function PUT(
         );
       }
     }
-    
+
     const updateData: {
       year?: number;
       pendapatanDesa?: number;
@@ -93,12 +93,12 @@ async function PUT(
     if (pendapatanDesa !== undefined) updateData.pendapatanDesa = parseFloat(pendapatanDesa);
     if (belanjaDesa !== undefined) updateData.belanjaDesa = parseFloat(belanjaDesa);
     if (isActive !== undefined) updateData.isActive = isActive;
-    
+
     const apbData = await store.apbDesa.update({
       where: { id },
       data: updateData
     });
-    
+
     return Response.json({
       success: true,
       data: apbData
@@ -118,33 +118,33 @@ async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    
-    
+
+
     if (!session || !session.user || session.user.role !== 'ADMIN') {
       return Response.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
       );
     }
-    
+
     const { id } = await params;
-    
+
     // Check if APB data exists
     const existingData = await store.apbDesa.findUnique({
       where: { id }
     });
-    
+
     if (!existingData) {
       return Response.json(
         { success: false, error: 'Data APB Desa tidak ditemukan' },
         { status: 404 }
       );
     }
-    
+
     await store.apbDesa.delete({
       where: { id }
     });
-    
+
     return Response.json({
       success: true,
       message: 'Data APB Desa berhasil dihapus'

@@ -1,128 +1,48 @@
-# Desasa Web
+# Webdesa — Cloudflare migration
 
-Desasa Web adalah aplikasi web untuk masyarakat Indonesia, dirancang dengan bahasa dan perilaku yang sesuai dengan budaya lokal.
+Aplikasi Desa Gimpubia menggunakan React + Vite pada Cloudflare Pages, Pages Functions untuk API, D1 + Drizzle, R2 untuk gambar/PDF, dan Better Auth untuk sesi administrator. Seluruh halaman dan komponen UI lama tetap digunakan.
 
-## 1. Persyaratan
-- **Frontend**: Antarmuka pengguna yang responsif dan mudah digunakan.
-- **Backend**: Integrasi database PostgreSQL melalui Neon untuk penyimpanan data yang aman.
-- **Fitur Utama**: Kemampuan upload gambar menggunakan Uploadthing.
-- **Deployment**: Mudah dideploy di Cloudflare atau Vercel.
-- **Bahasa**: Dukungan penuh untuk bahasa Indonesia.
-- **Desain**: Desain modern dan indah menggunakan Tailwind CSS dan shadcn/ui.
+## Pengembangan lokal
 
-## 2. Tech Stack
-- **Frontend**: Next.js 15 dengan TypeScript
-- **Styling**: Tailwind CSS dan shadcn/ui untuk UI yang cantik
-- **Database**: PostgreSQL (dihosting di Neon)
-- **ORM**: Prisma untuk interaksi database yang type-safe
-- **Upload Gambar**: Uploadthing
-- **Deployment**: Vercel/Cloudflare
+Gunakan Node.js 22.12+ atau 24 dan npm.
 
-## 3. Milestone
-- ✅ **Milestone 1**: Setup proyek dasar dengan Next.js, TypeScript, dan Tailwind CSS
-- ✅ **Milestone 2**: Integrasi shadcn/ui untuk komponen UI yang indah
-- ✅ **Milestone 3**: Setup Prisma untuk database management
-- ✅ **Milestone 4**: Instalasi Uploadthing untuk fitur upload gambar
-- ⏳ **Milestone 5**: Konfigurasi environment variables dan database connection
-- ⏳ **Milestone 6**: Implementasi fitur dasar dan testing
-- ⏳ **Milestone 7**: Deployment ke Vercel/Cloudflare
-
-## 4. Instalasi dan Setup
-
-### Prerequisites
-- Node.js 18+ 
-- npm atau yarn
-- Akun Neon untuk database PostgreSQL
-- Akun Uploadthing untuk file upload
-
-### Environment Variables
-Buat file `.env.local` dan tambahkan:
-
-```env
-# Database
-DATABASE_URL="your-neon-postgresql-connection-string"
-
-# Uploadthing
-UPLOADTHING_SECRET="your-uploadthing-secret"
-UPLOADTHING_APP_ID="your-uploadthing-app-id"
+```sh
+npm ci
+cp .dev.vars.example .dev.vars
+cp .env.example .env
+# Edit .dev.vars: isi secret acak minimal 32 karakter dan token setup sendiri.
+npm run db:migrate:local
+npm run build
+npm run preview
 ```
 
-### Menjalankan Aplikasi
+Buka `http://localhost:8788`. Buat administrator melalui `/setup` dengan token dari `.dev.vars`. Tidak ada akun atau password demo yang dibuat otomatis. Setelah setup, hapus `SETUP_TOKEN` dan login melalui `/login`.
 
-```bash
-# Install dependencies
-npm install
+Untuk HMR, jalankan `npm run preview` pada terminal pertama dan `npm run dev` pada terminal kedua, lalu buka `http://localhost:5173`. Set `BETTER_AUTH_URL=http://localhost:5173` di `.dev.vars` untuk mode ini; Vite meneruskan `/api` ke Pages Functions pada port 8788. Kembalikan ke `http://localhost:8788` untuk preview build.
 
-# Setup database
-npx prisma generate
-npx prisma db push
+`APP_ENV=development` hanya untuk simulasi lokal. Konfigurasi repository secara default memakai `production`: cookie aman dan validasi CAPTCHA tidak dilewati di luar mode development.
 
-# Run development server
-npm run dev
+## Validasi
+
+```sh
+npm run cf:typegen
+npm run lint
+npm run build
+npm test
+npx playwright install chromium
+npm run test:e2e
 ```
 
-Buka [http://localhost:3000](http://localhost:3000) untuk melihat aplikasi.
+Pengujian memakai workerd/Miniflare, database D1 dan bucket R2 sementara; tidak memakai resource remote. Pengujian API mencakup permission, setup, login, CRUD semua domain, pagination, pengaduan, serta upload gambar/PDF. Pengujian browser mencakup halaman publik, detail dinamis, login, dan seluruh halaman dashboard. Uji konversi data memeriksa login bcrypt lama dan penyimpanan nilai APB dalam sen pada D1.
 
-## 5. Struktur Proyek
+## Struktur
 
-```
-desasa/
-├── prisma/
-│   └── schema.prisma          # Database schema
-├── src/
-│   ├── app/                   # Next.js App Router
-│   ├── components/
-│   │   └── ui/               # shadcn/ui components
-│   └── lib/
-│       └── utils.ts          # Utility functions
-├── .env.local                # Environment variables
-├── package.json
-├── tailwind.config.ts        # Tailwind configuration
-└── README.md
-```
+- `src/app`: halaman React asli; `src/main.tsx`: routing dan penjagaan dashboard.
+- `src/server/routes`: logika API asli, dipindahkan ke factory per request.
+- `src/server/db`: skema Drizzle dan repository D1; `drizzle`: migrasi SQLite.
+- `functions/api/[[path]].ts`: entry point Pages Functions.
+- `src/server/auth.ts`: Better Auth + Drizzle, role admin hanya di server.
+- `src/server/uploads.ts`: upload dan penyajian R2 dengan validasi tipe/ukuran.
+- `prisma/`: skema/migrasi PostgreSQL historis sebagai referensi konversi; tidak digunakan saat build/runtime.
 
-## 6. Kontribusi
-
-Kami menyambut kontribusi dari komunitas! Silakan buat issue atau pull request.
-
-## 7. Lisensi
-
-MIT License - lihat file LICENSE untuk detail lengkap.
-
----
-
-**Dibuat dengan ❤️ untuk Indonesia**
-
-
-# Desasa Web
-
-Desasa Web adalah aplikasi web untuk masyarakat Indonesia, dirancang dengan bahasa dan perilaku yang sesuai dengan budaya lokal.
-
-## 1. Persyaratan
-- **Frontend**: Antarmuka pengguna yang responsif dan mudah digunakan.
-- **Backend**: Integrasi database PostgreSQL melalui Neon untuk penyimpanan data yang aman.
-- **Fitur Utama**: Kemampuan upload gambar menggunakan Uploadthing.
-- **Deployment**: Mudah dideploy di Cloudflare atau Vercel.
-- **Bahasa**: Dukungan penuh untuk bahasa Indonesia.
-- **Desain**: Desain modern dan indah menggunakan Tailwind CSS dan shadcn/ui.
-
-## 2. Tech Stack
-- **Frontend**: Next.js dengan TypeScript.
-- **Styling**: Tailwind CSS dan shadcn/ui untuk UI yang cantik.
-- **Database**: PostgreSQL (dihosting di Neon).
-- **Upload Gambar**: Uploadthing.
-- **Lainnya**: Prisma sebagai ORM untuk interaksi database.
-
-## 3. Milestone
-- **Milestone 1**: Setup proyek dasar dengan Next.js, TypeScript, dan Tailwind CSS.
-- **Milestone 2**: Integrasi Prisma dan Neon PostgreSQL.
-- **Milestone 3**: Implementasi fitur upload gambar dengan Uploadthing.
-- **Milestone 4**: Penambahan komponen UI menggunakan shadcn/ui dan pengujian.
-- **Milestone 5**: Deployment ke Vercel/Cloudflare dan pengoptimalan akhir.
-
-## 4. Credentials
-
-**PostgreSQL Neon**: postgresql://neondb_owner:npg_pvVrJlwUF71E@ep-jolly-dust-a1h9ldkc-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
-
-**Uploadthing**:
-- **API Key**: sk_live_bc8e58cef700145359ea4f13ae2e16a37273544f3c9ec5649ca9a4b3953d518c
+Lihat [panduan migrasi](docs/cloudflare-migration.md) untuk pemindahan data, konfigurasi Pages, dan batas validasi.

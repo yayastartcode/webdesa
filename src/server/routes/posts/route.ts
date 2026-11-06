@@ -58,7 +58,7 @@ async function GET(request: Request) {
 // POST /api/posts - Create a new post
 async function POST(request: Request) {
   try {
-    
+
 
     if (!session || !session.user || session.user.role !== "ADMIN") {
       return Response.json(

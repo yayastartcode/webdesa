@@ -24,7 +24,7 @@ async function GET() {
 // POST /api/hero-slides
 async function POST(request: Request) {
   try {
-    
+
 
     if (!session || !session.user || session.user.role !== "ADMIN") {
       return Response.json(

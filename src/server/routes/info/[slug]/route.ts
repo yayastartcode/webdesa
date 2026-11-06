@@ -20,9 +20,9 @@ async function GET(
       );
     }
 
-    return Response.json({ 
+    return Response.json({
       success: true,
-      data: info 
+      data: info
     });
   } catch (error) {
     console.error("Error fetching info:", error);

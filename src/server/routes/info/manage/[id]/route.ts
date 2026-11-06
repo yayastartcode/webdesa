@@ -10,18 +10,18 @@ async function GET(
 ) {
   try {
     const { id } = await params;
-    
+
     const info = await store.info.findUnique({
       where: { id }
     });
-    
+
     if (!info) {
       return Response.json(
         { success: false, error: 'Halaman info tidak ditemukan' },
         { status: 404 }
       );
     }
-    
+
     return Response.json({
       success: true,
       data: info
@@ -41,7 +41,7 @@ async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    
+
 
     if (!session || !session.user || session.user.role !== 'ADMIN') {
       return Response.json(
@@ -49,28 +49,28 @@ async function PATCH(
         { status: 401 }
       );
     }
-    
+
     const { id } = await params;
     const { title, slug, pdfUrl, isActive } = await readBody(request, "info-update");
-    
+
     // Check if info exists
     const existingInfo = await store.info.findUnique({
       where: { id }
     });
-    
+
     if (!existingInfo) {
       return Response.json(
         { success: false, error: 'Halaman info tidak ditemukan' },
         { status: 404 }
       );
     }
-    
+
     // Check if slug is being changed and if it already exists
     if (slug && slug !== existingInfo.slug) {
       const slugExists = await store.info.findUnique({
         where: { slug }
       });
-      
+
       if (slugExists) {
         return Response.json(
           { success: false, error: 'Slug sudah digunakan' },
@@ -78,7 +78,7 @@ async function PATCH(
         );
       }
     }
-    
+
     // Prepare update data
     const updateData: {
       updatedAt: Date;
@@ -89,17 +89,17 @@ async function PATCH(
     } = {
       updatedAt: new Date()
     };
-    
+
     if (title !== undefined) updateData.title = title;
     if (slug !== undefined) updateData.slug = slug;
     if (pdfUrl !== undefined) updateData.pdfUrl = pdfUrl;
     if (isActive !== undefined) updateData.isActive = isActive;
-    
+
     const updatedInfo = await store.info.update({
       where: { id },
       data: updateData
     });
-    
+
     return Response.json({
       success: true,
       data: updatedInfo,
@@ -120,33 +120,33 @@ async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    
-    
+
+
     if (!session || !session.user || session.user.role !== 'ADMIN') {
       return Response.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
       );
     }
-    
+
     const { id } = await params;
-    
+
     // Check if info exists
     const existingInfo = await store.info.findUnique({
       where: { id }
     });
-    
+
     if (!existingInfo) {
       return Response.json(
         { success: false, error: 'Halaman info tidak ditemukan' },
         { status: 404 }
       );
     }
-    
+
     await store.info.delete({
       where: { id }
     });
-    
+
     return Response.json({
       success: true,
       message: 'Halaman info berhasil dihapus'

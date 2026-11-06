@@ -38,7 +38,7 @@ async function PATCH(
 ) {
   try {
     const { id } = await params;
-    
+
 
     if (!session || !session.user || session.user.role !== "ADMIN") {
       return Response.json(
@@ -77,8 +77,8 @@ async function DELETE(
 ) {
   try {
     const { id } = await params;
-    
-    
+
+
     if (!session || !session.user || session.user.role !== "ADMIN") {
       return Response.json(
         { error: "Unauthorized" },

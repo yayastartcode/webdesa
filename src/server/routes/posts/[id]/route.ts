@@ -49,7 +49,7 @@ async function PUT(
 ) {
   const { id } = await params;
   try {
-    
+
 
     if (!session || !session.user || session.user.role !== "ADMIN") {
       return Response.json(
@@ -117,8 +117,8 @@ async function DELETE(
 ) {
   const { id } = await params;
   try {
-    
-    
+
+
     if (!session || !session.user || session.user.role !== "ADMIN") {
       return Response.json(
         { success: false, error: "Unauthorized access" },

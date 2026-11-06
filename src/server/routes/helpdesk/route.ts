@@ -6,7 +6,7 @@ export function createHandlers({ store, env }: RouteContext) {
 // Verify reCAPTCHA token
 async function verifyRecaptcha(token: string): Promise<boolean> {
   const secretKey = env.RECAPTCHA_SECRET_KEY;
-  
+
   if (!secretKey) {
     console.error("RECAPTCHA_SECRET_KEY is not configured");
     return false;
@@ -71,9 +71,9 @@ async function POST(request: Request) {
     });
 
     return Response.json(
-      { 
+      {
         message: "Pengaduan berhasil dikirim",
-        id: helpdesk.id 
+        id: helpdesk.id
       },
       { status: 201 }
     );

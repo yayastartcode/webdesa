@@ -39,7 +39,7 @@ async function PUT(
 ) {
   const { id } = await params;
   try {
-    
+
 
     if (!session || !session.user || session.user.role !== "ADMIN") {
       return Response.json(
@@ -72,8 +72,8 @@ async function PUT(
     // If order is changing, handle reordering
     if (currentEmployee.order !== order) {
       const existingEmployee = await store.employee.findFirst({
-        where: { 
-          order, 
+        where: {
+          order,
           isActive: true,
           id: { not: id }
         }
@@ -138,8 +138,8 @@ async function DELETE(
 ) {
   const { id } = await params;
   try {
-    
-    
+
+
     if (!session || !session.user || session.user.role !== "ADMIN") {
       return Response.json(
         { success: false, error: "Unauthorized access" },
