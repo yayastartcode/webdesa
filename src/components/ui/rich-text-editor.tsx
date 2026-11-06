@@ -131,7 +131,7 @@ export function RichTextEditor({
       </div>
       
       {/* Custom Styles */}
-      <style jsx global>{`
+      <style>{`
         .tiptap-editor .ProseMirror {
           outline: none;
           padding: 1rem;

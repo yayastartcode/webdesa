@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-import { UploadButton } from "@/lib/uploadthing";
+import { UploadButton } from "@/lib/upload";
 
 interface InfoPage {
   id: string;

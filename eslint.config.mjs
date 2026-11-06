@@ -1,37 +1,12 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  {
-    ignores: [
-      "src/generated/**/*",
-      "**/generated/**/*",
-      "node_modules/**/*",
-      ".next/**/*",
-      "out/**/*",
-      "**/*.generated.*",
-      "**/prisma/generated/**/*"
-    ]
-  },
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-  {
-    rules: {
-      "@typescript-eslint/no-unused-vars": "warn",
-      "@typescript-eslint/no-explicit-any": "warn",
-      "@next/next/no-img-element": "warn",
-      "react-hooks/exhaustive-deps": "warn",
-      "@typescript-eslint/no-require-imports": "warn",
-      "@typescript-eslint/no-unused-expressions": "warn"
-    }
-  }
-];
-
-export default eslintConfig;
+import tseslint from 'typescript-eslint';
+import reactHooks from 'eslint-plugin-react-hooks';
+export default tseslint.config(
+  { ignores: ['dist/**', 'node_modules/**', '.wrangler/**', 'worker-configuration.d.ts', 'drizzle/**'] },
+  ...tseslint.configs.recommended,
+  { files: ['**/*.{ts,tsx}'], plugins: { 'react-hooks': reactHooks }, rules: {
+    ...reactHooks.configs.recommended.rules,
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-explicit-any': 'warn',
+    'react-hooks/exhaustive-deps': 'warn',
+  } },
+);

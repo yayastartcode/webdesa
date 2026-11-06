@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { UploadButton } from "@/lib/uploadthing";
+import { UploadButton } from "@/lib/upload";
 
 export function UploadDemo() {
   return (
@@ -9,7 +9,7 @@ export function UploadDemo() {
       <CardHeader>
         <CardTitle>Demo Upload Gambar</CardTitle>
         <CardDescription>
-          Coba fitur upload gambar menggunakan Uploadthing
+          Unggah gambar untuk digunakan pada website desa
         </CardDescription>
       </CardHeader>
       <CardContent>

@@ -1,9 +1,9 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/auth-client";
+import { useRouter } from "@/lib/navigation";
 import { useEffect, useState } from "react";
-import type { Session } from "next-auth";
+import type { Session } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

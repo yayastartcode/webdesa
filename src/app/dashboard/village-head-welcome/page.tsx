@@ -1,17 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
+import { useRouter } from "@/lib/navigation";
+import { lazy } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Save, Eye } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // Dynamically import the markdown editor to avoid SSR issues
-const MDEditor = dynamic(
-  () => import("@uiw/react-md-editor").then((mod) => mod.default),
-  { ssr: false }
+const MDEditor = lazy(
+  () => import("@uiw/react-md-editor")
 );
 
 // Remove the incorrect Markdown import - @uiw/react-md-editor doesn't export Markdown component

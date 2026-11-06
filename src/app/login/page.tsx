@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { signIn, getSession } from "next-auth/react";
-import type { Session } from "next-auth";
-import { useRouter } from "next/navigation";
+import { signIn, getSession } from "@/lib/auth-client";
+import type { Session } from "@/lib/auth-client";
+import { useRouter } from "@/lib/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -113,11 +113,7 @@ export default function LoginPage() {
             </Button>
           </form>
           
-          <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
-            <p>Demo Admin:</p>
-            <p>Email: admin@desasa.com</p>
-            <p>Password: admin123</p>
-          </div>
+
         </CardContent>
       </Card>
     </div>
