@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/lib/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,10 +10,11 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function SetupPage() {
+  const [setupToken, setSetupToken] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("admin@desasa.com");
-  const [password, setPassword] = useState("admin123");
-  const [confirmPassword, setConfirmPassword] = useState("admin123");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
@@ -51,8 +52,8 @@ export default function SetupPage() {
       return;
     }
 
-    if (password.length < 6) {
-      setError("Password minimal 6 karakter");
+    if (password.length < 12) {
+      setError("Password minimal 12 karakter");
       setIsLoading(false);
       return;
     }
@@ -62,6 +63,7 @@ export default function SetupPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "X-Setup-Token": setupToken,
         },
         body: JSON.stringify({
           name,
@@ -139,6 +141,10 @@ export default function SetupPage() {
             )}
             
             <div className="space-y-2">
+              <Label htmlFor="setup-token">Token Setup</Label>
+              <Input id="setup-token" type="password" value={setupToken} onChange={(e) => setSetupToken(e.target.value)} required />
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="name">Nama Lengkap</Label>
               <Input
                 id="name"
@@ -172,7 +178,7 @@ export default function SetupPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  minLength={6}
+                  minLength={12}
                   className="pr-10"
                 />
                 <button
@@ -199,7 +205,7 @@ export default function SetupPage() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
-                  minLength={6}
+                  minLength={12}
                   className="pr-10"
                 />
                 <button

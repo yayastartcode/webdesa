@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
+import { useParams } from "@/lib/navigation";
+import Image from "@/components/image";
+import Link from "@/lib/router-link";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 

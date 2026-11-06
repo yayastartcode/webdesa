@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { signIn, getSession } from "next-auth/react";
-import type { Session } from "next-auth";
-import { useRouter } from "next/navigation";
+import { signIn, getSession } from "@/lib/auth-client";
+import type { Session } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,7 +16,6 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,12 +32,12 @@ export default function LoginPage() {
       if (result?.error) {
         setError("Email atau password salah");
       } else {
-        // Get session to check user role
+        // Reload after login so route guards start with the newly issued session.
         const session = await getSession() as Session | null;
         if (session?.user?.role === "ADMIN") {
-          router.push("/dashboard");
+          window.location.assign("/dashboard");
         } else {
-          router.push("/");
+          window.location.assign("/");
         }
       }
     } catch (error) {
@@ -113,11 +111,7 @@ export default function LoginPage() {
             </Button>
           </form>
           
-          <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
-            <p>Demo Admin:</p>
-            <p>Email: admin@desasa.com</p>
-            <p>Password: admin123</p>
-          </div>
+
         </CardContent>
       </Card>
     </div>

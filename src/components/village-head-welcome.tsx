@@ -1,19 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
-import dynamic from "next/dynamic";
+import Image from "@/components/image";
+import { lazy } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 
 // Dynamically import the markdown renderer to avoid SSR issues
-const MDEditor = dynamic(
-  () => import("@uiw/react-md-editor").then((mod) => mod.default),
-  { ssr: false }
-);
-
-const Markdown = dynamic(
-  () => import("@uiw/react-md-editor").then((mod) => mod.default.Markdown),
-  { ssr: false }
+const Markdown = lazy(
+  () => import("@uiw/react-md-editor").then((mod) => ({ default: mod.default.Markdown }))
 );
 
 interface VillageHeadWelcome {

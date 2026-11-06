@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import Image from "@/components/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface SlideData {

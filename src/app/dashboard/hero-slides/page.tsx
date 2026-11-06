@@ -1,15 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
-import type { Session } from 'next-auth';
+import { useSession } from '@/lib/auth-client';
+import { redirect } from '@/lib/navigation';
+import type { Session } from '@/lib/auth-client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { UploadButton } from '@/lib/uploadthing';
+import { UploadButton } from '@/lib/upload';
 import { Trash2, Plus, ArrowUp, ArrowDown } from 'lucide-react';
 
 
@@ -112,7 +112,7 @@ export default function HeroSlidesPage() {
     setSaving(true);
     try {
       const response = await fetch(`/api/hero-slides/${slideId}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },

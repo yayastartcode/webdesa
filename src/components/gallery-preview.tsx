@@ -5,8 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Camera } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
+import Link from "@/lib/router-link";
+import Image from "@/components/image";
 
 interface GalleryItem {
   id: string;

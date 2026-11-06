@@ -7,9 +7,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { UploadButton } from "@/lib/uploadthing";
+import { UploadButton } from "@/lib/upload";
 import { Trash2, Edit, Eye, Plus } from "lucide-react";
-import Image from "next/image";
+import Image from "@/components/image";
 
 interface GalleryItem {
   id: string;

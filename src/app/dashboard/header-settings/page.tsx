@@ -1,16 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import type { Session } from "next-auth";
+import { useSession } from "@/lib/auth-client";
+import { useRouter } from "@/lib/navigation";
+import type { Session } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Trash2, Plus, GripVertical } from "lucide-react";
-import { UploadButton } from "@/lib/uploadthing";
+import { UploadButton } from "@/lib/upload";
 
 interface NavigationItem {
   id?: string;

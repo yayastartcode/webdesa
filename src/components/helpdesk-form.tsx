@@ -28,7 +28,7 @@ const HelpdeskForm = () => {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
-  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
   const isRecaptchaEnabled = recaptchaSiteKey && recaptchaSiteKey !== 'your-recaptcha-site-key-here';
 
   const handleInputChange = (field: keyof HelpdeskFormData, value: string) => {
